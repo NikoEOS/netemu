@@ -8,20 +8,36 @@ upper_instance=${instance_name^^}
 
 echo netemu-$instance_name > /etc/hostname
 
-iptables -t nat -A POSTROUTING -j MASQUERADE
-apt-get -y install iptables-persistent nodejs npm dnsmasq hostapd git
+sudo apt-get -y install dnsmasq hostapd git
+
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+
+sudo iptables -t nat -A POSTROUTING -j MASQUERADE
+sudo apt-get -y install iptables-persistent 
+sudo apt-get -y install nodejs
+sudo apt-get -y npm
+
+sudo systemctl enable ssh
+sudo systemctl start ssh
 
 # do the tar
 tail -n+29 $0 | base64 -d | tar zx -C /
+
+cp 
 
 sed -i -e "s/<UPPERNAME>/$upper_instance/" -e "s/<WIFI_PASSWORD>/$wifi_pass/" /etc/hostapd/hostapd.conf
 sed -i -e "s/<instance>/$instance_name/" /etc/dnsmasq.hosts
 
 cd /home/pi/
-git clone https://github.com/OutSystems/netemu
+git clone https://github.com/NikoEOS/netemu
 
-cd netemu/tc-server/
-npm install
+cd Downloads/netemu-master/conf-files
+
+sudo cp dhcpcd.conf /etc/dhcpcd.conf
+sudo cp hostapd.conf /etc/hostapd/hostapd.conf
+sudo cp hostapd /etc/default/hostapd
+sudo cp dnsmasq.conf /etc/dnsmasq.conf
+sudo cp rc.local /etc/rc.local
 
 reboot
 exit
