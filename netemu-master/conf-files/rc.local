@@ -10,16 +10,19 @@
 # bits.
 #
 # By default this script does nothing.
- 
+
 # Print the IP address
 _IP=$(hostname -I) || true
 if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
- 
-echo 1 > /proc/sys/net/ipv4/ip_forward
- 
+
+sleep 7
+fbcp &
+
+echo > 1 /proc/sys/net/ipv4/ip_forward
+
 cd /home/pi/netemu/tc-server
 nohup setsid node app.js &
- 
+
 exit 0
