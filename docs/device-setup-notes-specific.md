@@ -84,6 +84,7 @@ The script asks you for a name for the device and a password. Name should be a i
 (text/numbers) from 8 to 64 characters.
 
 	Note: The script will name your device netemuX where X is the integer (number) of your choice
+	
 	Note: Setting the name and password automatically has had some issues. This can be done manually later on and does not matter at this point.
    
   
