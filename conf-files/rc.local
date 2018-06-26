@@ -17,7 +17,7 @@ if [ "$_IP" ]; then
   printf "My IP address is %s\n" "$_IP"
 fi
 
-sleep 7
+sleep 7  #these rows are related to the LCD
 fbcp &
 
 echo > 1 /proc/sys/net/ipv4/ip_forward
