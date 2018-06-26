@@ -70,17 +70,23 @@ Enable ssh
 
 # Install NetEmu
 
-From the Raspberry's browser go to https://github.com/OutSystems/netemu
+1. From the Raspberry's browser go to https://github.com/OutSystems/netemu
     Note: If you are running headless you will probably need to do something differently to get the master.zip 
-Download master zip
+
+2. Download master zip
     Note: Following instructions may also be run from terminal with appropriate commands.
-Extract the contents of zip file to a folder in /home/pi/ using the pixels GUI
-Example: /home/pi/netemu-install
-Execute script "install-netemu.sh" in terminal from the master folder by double clicking.
-The script asks you for a name for the device and a password. Name should be a integer (number) and password a string (text/numbers) from 8 to 64 characters.
+
+3. Extract the contents of zip file to a folder in /home/pi/ using the pixels GUI
+	Example: /home/pi/netemu-install
+
+4. Execute script "install-netemu.sh" in terminal from the master folder by double clicking.
+   The script asks you for a name for the device and a password. Name should be a integer (number) and password a string
+   (text/numbers) from 8 to 64 characters.
     Note: The script will name your device netemuX where X is the integer (number) of your choice
     Note: Setting the name and password automatically has had some issues. This can be done manually later on and does not matter at         this point.
-Raspberry will reboot automatically
+
+5. Raspberry will reboot automatically
+
 
 # Open Wlan to users and configure rest of the files
 
@@ -93,20 +99,20 @@ Open hostapd.conf with
 
 Write/copy to hostapd.conf the following
 
-interface=wlan0
-driver=nl80211
-ssid=NETEMU-PLACEHOLDER
-hw_mode=g
-channel=7
-wmm_enabled=0
-macaddr_acl=0
-auth_algs=1
-ignore_broadcast_ssid=0
-wpa=2
-wpa_passphrase=SECRET1234
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=TKIP
-rsn_pairwise=CCMP
+	interface=wlan0
+	driver=nl80211
+	ssid=NETEMU-PLACEHOLDER
+	hw_mode=g
+	channel=7
+	wmm_enabled=0
+	macaddr_acl=0
+	auth_algs=1
+	ignore_broadcast_ssid=0
+	wpa=2
+	wpa_passphrase=SECRET1234
+	wpa_key_mgmt=WPA-PSK
+	wpa_pairwise=TKIP
+	rsn_pairwise=CCMP
     
     Note: Here you can set up your ssid and password.
 
@@ -122,11 +128,11 @@ Open following file:
 
 In hostapd replace the following line:
 
-#DAEMON_CONF=""
+	#DAEMON_CONF=""
 
 With:
 
-DAEMON_CONF="/etc/hostapd/hostapd.conf"
+	DAEMON_CONF="/etc/hostapd/hostapd.conf"
 
     Note: This line should be only uncommented line in the file.
 
@@ -137,9 +143,9 @@ Open dhcpcd.conf:
 
 In the very end of the file write/copy the following:
 
-interface wlan0
-	static ip_address=10.201.0.1
-denyinterfaces wlan0
+	interface wlan0
+		static ip_address=10.201.0.1
+	denyinterfaces wlan0
 
     Note: IP-address may be set differently e.g 192.168.4.1 but it must be configured elsewhere as well.
 
@@ -157,51 +163,22 @@ Create and edit new dnsmasq.conf file:
     
 Write/copy into the file:
 
-interface=wlan0     
-	dhcp-range=10.201.0.2,10.201.0.99,255.255.255.0,24h
-	#addn-hosts=/etc/dnsmasq.hosts
+	interface=wlan0     
+		dhcp-range=10.201.0.2,10.201.0.99,255.255.255.0,24h
+		#addn-hosts=/etc/dnsmasq.hosts
 
 
-Open rc.local
-
-    sudo nano /etc/rc.local
+Replace /etc/rc.local with rc.local file from conf-files folder
     
-Set up the file so it looks like following:
-
-#!/bin/sh -e
-#
-# rc.local
-#
-# This script is executed at the end of each multiuser runlevel.
-# Make sure that the script will "exit 0" on success or any other
-# value on error.
-#
-# In order to enable or disable this script just change the execution
-# bits.
-#
-# By default this script does nothing.
-
-# Print the IP address
-_IP=$(hostname -I) || true
-if [ "$_IP" ]; then
-  printf "My IP address is %s\n" "$_IP"
-fi
-
-echo 1 > /proc/sys/net/ipv4/ip_forward
-
-cd /home/pi/netemu/tc-server
-nohup setsid node app.js &
-
-exit 0
 
 
 Open sysctl.conf
 
-    sudo nano /etc/sysctl.conf
+	sudo nano /etc/sysctl.conf
 
 Find and uncomment line:
 
-#net.ipv4.ip_forward=1
+	#net.ipv4.ip_forward=1
 
 Reboot your device. It should now be visible to scans from wireless devices and it should be possible to connect to.
 Connection to internet will not yet work though. 
