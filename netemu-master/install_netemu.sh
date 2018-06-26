@@ -6,18 +6,18 @@ echo
 
 upper_instance=${instance_name^^}
 
-echo netemu-$instance_name > /etc/hostname
-
 sudo apt-get update
 
 sudo apt-get -y install dnsmasq hostapd git
 
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 
-sudo iptables -t nat -A POSTROUTING -j MASQUERADE
-sudo apt-get -y install iptables-persistent 
+
 sudo apt-get -y install nodejs
 sudo apt-get -y npm
+
+sudo npm install express
+sudo npm install swig
 
 sudo systemctl enable ssh
 sudo systemctl start ssh
@@ -39,9 +39,13 @@ sudo cp hostapd.conf /etc/hostapd/hostapd.conf
 sudo cp hostapd /etc/default/hostapd
 sudo cp dnsmasq.conf /etc/dnsmasq.conf
 sudo cp rc.local /etc/rc.local
+sudo cp sysctl.conf /etc/sysctl.conf
 
 sudo sed -i -e "s/<UPPERNAME>/$upper_instance/" -e "s/<WIFI_PASSWORD>/$wifi_pass/" /etc/hostapd/hostapd.conf
 sudo sed -i -e "s/<instance>/$instance_name/" /etc/dnsmasq.hosts
+
+sudo iptables -t nat -A POSTROUTING -j MASQUERADE
+sudo apt-get -y install iptables-persistent
 
 reboot
 exit
