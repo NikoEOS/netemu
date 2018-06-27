@@ -1,27 +1,73 @@
-<!doctype html>
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <title>Network Emulator</title>
+<style>
+body {background-color: white;}
+h1 {color: info;}
+p {color: red;}
+
+.btn{
+margin-bottom: 10%;
+width: 60%;
+padding-bottom:2.5vw;
+padding-top:2.5vw;
+
+
+}
+.btn_font{
+font-size: 3vw;
+}
+
+.h2_font{
+font-size: 3.3vw;
+}
+
+.h1_font{
+font-size: 5vw;
+}
+
+.pre_font{
+font-size: 4vw;
+}
+</style>
 </head>
 <body>
-<h1>Network Emulator</h1>
-<section>
-  Current state: <code>{{ status }}</code>
-</section>
-<h2>Last status</h2>
-<pre>{{ lastOut }}</pre>
-<h2>Set another</h2>
-<ul>
-<li><a href="/setnetwork/wifi">WIFI</a>
-<li><a href="/setnetwork/4g"  >4G</a>
-<li><a href="/setnetwork/3g"  >3G</a>
-<li><a href="/setnetwork/2g"  >2G</a>
-<li><a href="/setnetwork/gprs">GPRS</a>
-</ul>
+<div align="center" style="width:100%">
+<div style="width:85%;">
+<div align="center">
+<h1 class="h1_font">Network Emulator</h1>
+</div>
 
-<hr />
-<address>An <a href="https://github.com/outsystems/netem/" target="_blank">experiment</a> by OutSystems</address>
 
-</body>
-</html>
+
+<div style="width:30%; float:left;">
+<h2 class="h2_font" >Current state </h2>
+<pre class="pre_font"><code>{{ status }}</code></pre>
+<h2 class="h2_font" >Last status</h2>
+<pre class="pre_font">{{ lastOut }}</pre>
+</div>
+
+
+<div style="width:65%; float:right;">
+<h2 class="h2_font">Set another</h2>
+
+<div style="width:50%; float:left;">
+<div><a href="/setnetwork/wifi"type="button" class="btn btn-primary"><span class="btn_font">WIFI</span></a></div>
+<div><a href="/setnetwork/4g" type="button" class="btn btn-primary" ><span class="btn_font">4G</span></a></div>
+<div><a href="/setnetwork/3g"type="button" class="btn btn-primary" ><span class="btn_font">3G</span></a></div>
+</div>
+
+<div style="width:50%; float:right;">
+
+<div><a href="/setnetwork/2g"type="button" class="btn btn-primary" ><span class="btn_font">2G</span></a></div>
+<div><a href="/setnetwork/gprs" type="button" class="btn btn-primary"><span class="btn_font">GPRS</span></a></div>
+</div>
+</div>
+</div>
+</div>
